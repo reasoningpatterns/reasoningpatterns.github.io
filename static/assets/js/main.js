@@ -17,6 +17,7 @@ let currHeatLabels = {};
 let curImg = 0
 let currDiffHeat = {};
 
+let kmods =1;
 
 let oldKmean = {};
 let oldHeatmaps = {};
@@ -1300,7 +1301,7 @@ function fillHeads(data) {
     for (let i = 0; i < names.length; i++) {
 
         // console.log("Making name _: #" + names[i] + " Of value: " + data[names[i]]);
-        let col = getCol(data[names[i]])
+        let col = getCol(data[names[i]][kmods]);
 
 
         svg.select("#" + names[i]).attr("fill", col);
