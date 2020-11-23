@@ -939,12 +939,15 @@ function loadInst(imgId, thead) {
 
     $.ajax({
         type: "POST",
-        url: "http://visqa.liris.cnrs.fr/ask",
+        url: "https://visqa.liris.cnrs.fr/ask",
         crossDomain: true,
+        crossOrigin: true,
         processData: false,
         contentType: false,
         data: form,
         success: function (d) {
+            console.log("LAAAAAAAAA");
+            console.log(d);
             ask(d)
 
             $("#ask-quest").attr("value", q["question"])
