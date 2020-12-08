@@ -25,7 +25,7 @@
 
     <!-- Favicon
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-<!--    <link rel="icon" type="image/png" href="static/assets/images/favicon/favicon.ico">-->
+    <!--    <link rel="icon" type="image/png" href="static/assets/images/favicon/favicon.ico">-->
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"
             integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -116,538 +116,563 @@
 <!--Icons made by <a href="https://www.flaticon.com/authors/dmitri13" title="dmitri13">dmitri13</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>-->
 
 <div class="container" style="margin-bottom: 5%;margin-left: auto;width:1750px!important;max-width: 1750px">
+
     <div class="row">
-        <div class="twelve column" style="margin-top: 2%;position: relative">
-            <div style=";background-color: #fafafa;border: thin solid #f3f3f3;padding: 0.25em;height: 98px;display: flex"
-                 id="selFlat">
-                <div id="tail" style="height: 100%;width: 44%;display: flex;overflow-x: scroll;overflow-y: hidden">
-
-                </div>
-                <div id="midSel" style="height: 100%;width: 10%;display: inline-block;position: relative">
-                    <img src="static/assets/images/add.png" id="plusTail" class="plusBtn"
-                         style="height: 40px;width: auto;top: 20%;left: 6%;position: absolute">
-                    <img src="static/assets/images/more.png"
-                         style="height: 40px;width: auto;top: 20%;left: 38.5%;position: absolute">
-                    <img src="static/assets/images/add.png" id="plusHead" class="plusBtn"
-                         style="height: 40px;width: auto;top: 20%;right: 6%;position: absolute">
-                </div>
-                <div id="head" style="height: 100%;width: 44%;display: flex;overflow-x: scroll;overflow-y: hidden">
-
-                </div>
-            </div>
-
+        <div class="twelve columns" style="text-align: center;margin-top: 40px">
+            <h2>How Transferable are Reasoning Patterns in VQA?</h2>
+            <br>
+            <h4> Anonymous CVPR submission#990</h4>
+            <br>
+            <p>
+                Since its inception, Visual Question Answering (VQA) is notoriously known as a task, where models are
+                prone to exploit biases in datasets to find shortcuts instead of performing high-level reasoning, required
+                for generalization. Classical methods address these issues with different techniques including removing
+                biases from training data, or adding branches to models to detect and remove biases. In this paper, we
+                argue that uncertainty in vision is a dominating factor preventing the successful learning of reasoning
+                in vision and language problems. We train a visual oracle with perfect sight, and in a large scale study
+                provide experimental evidence that it is much less prone to exploiting spurious dataset biases compared
+                to standard models. In particular,we propose to study the attention mechanisms at work in the visual
+                oracle and compare them with a SOTA Transformer-based model. We provide an in-depth analysis and
+                visualizations of reasoning patterns obtained with an online visualization tool which we make publicly
+                available1. We exploit these insights by transferring reasoning patterns from the oracle model to a SOTA
+                Transformer-based VQA model taking as input standard noisy inputs. Experiments show successful transfer as
+                evidenced by higher overall accuracy,as well as accuracy on infrequent answers for each type of question,
+                which provides evidence for improved generalization and a decrease of the dependency on dataset biases.
+            </p>
+            <p> For more information on how to use this tool, please refer to our demo: <a href="demo.mp4" target="_blank">reasoningpatterns.github.io/demo.mp4</a></p>
         </div>
-    </div>
+        <div class="row">
+            <div class="twelve column" style="margin-top: 2%;position: relative">
+                <div style=";background-color: #fafafa;border: thin solid #f3f3f3;padding: 0.25em;height: 98px;display: flex"
+                     id="selFlat">
+                    <div id="tail" style="height: 100%;width: 44%;display: flex;overflow-x: scroll;overflow-y: hidden">
 
-    <div class="row" style="margin-top: 1.4%;position: relative">
-        <div id="asker" class="three columns">
-            <div style=";background-color: #fafafa;border: thin solid #f3f3f3;padding: .325em 0 .325em 0.2em;">
-                <input type="text" id="ask-quest" style="width: 314px"
-                       placeholder="Ask a question about the picture" list="productName">
-                <datalist id="productName">
-                    <option value="bob">bob</option>
-                </datalist>
-                <button class="button-primary" style="display:inline-block;padding: 0 12px" id="ask">Ask</button>
+                    </div>
+                    <div id="midSel" style="height: 100%;width: 10%;display: inline-block;position: relative">
+                        <img src="static/assets/images/add.png" id="plusTail" class="plusBtn"
+                             style="height: 40px;width: auto;top: 20%;left: 6%;position: absolute">
+                        <img src="static/assets/images/more.png"
+                             style="height: 40px;width: auto;top: 20%;left: 38.5%;position: absolute">
+                        <img src="static/assets/images/add.png" id="plusHead" class="plusBtn"
+                             style="height: 40px;width: auto;top: 20%;right: 6%;position: absolute">
+                    </div>
+                    <div id="head" style="height: 100%;width: 44%;display: flex;overflow-x: scroll;overflow-y: hidden">
+
+                    </div>
+                </div>
+
             </div>
-            <div style="width: 300px;height: 320px;margin-top:20px">
-                <canvas id="inVis"
-                        style=";background-color: #fafafa;border: thin solid #f3f3f3;padding: 1.125em;"></canvas>
-                <!--                <input type="range" id="imSlide" min="0" value="0" class="u-full-width">-->
-            </div>
-
-
         </div>
-        <div class="nine columns">
-            <div style="display: inline-block;">
 
-                <div style="position: relative;display: inline-block;left: 0">
-                    <button id="saveState"> Save</button>
-                    <!--                        <button id="makeDiff"> AbsDiff</button>-->
-                    <button id="fullDiff">
-                        Comapre
+        <div class="row" style="margin-top: 1.4%;position: relative">
+            <div id="asker" class="three columns">
+                <div style=";background-color: #fafafa;border: thin solid #f3f3f3;padding: .325em 0 .325em 0.2em;">
+                    <input type="text" id="ask-quest" style="width: 314px"
+                           placeholder="Ask a question about the picture" list="productName">
+                    <datalist id="productName">
+                        <option value="bob">bob</option>
+                    </datalist>
+                    <button class="button-primary" style="display:inline-block;padding: 0 12px" id="ask">Ask</button>
+                </div>
+                <div style="width: 300px;height: 320px;margin-top:20px">
+                    <canvas id="inVis"
+                            style=";background-color: #fafafa;border: thin solid #f3f3f3;padding: 1.125em;"></canvas>
+                    <!--                <input type="range" id="imSlide" min="0" value="0" class="u-full-width">-->
+                </div>
+
+
+            </div>
+            <div class="nine columns">
+                <div style="display: inline-block;">
+
+                    <div style="position: relative;display: inline-block;left: 0">
+                        <button id="saveState"> Save</button>
+                        <!--                        <button id="makeDiff"> AbsDiff</button>-->
+                        <button id="fullDiff">
+                            compare
+                        </button>
+                        <select style="display: inline-block;margin-right: 25px" class="one-half" id="models">
+
+                        </select>
+                        <span style="margin-top: -20%">K-Median 0</span>
+                        <div style="display: inline-block;vertical-align: middle">
+                            <div style="background-color: #bbd8e6;width: 30px;height: 30px" class="actFilted"
+                                 num="0"></div>
+                            <div style="background-color: #cbecaf;width: 30px;height: 30px" class="actFilted"
+                                 num="1"></div>
+                            <div style="background-color: #f8e4c5;width: 30px;height: 30px" class="actFilted"
+                                 num="2"></div>
+                            <div style="background-color: #f3cfdb;width: 30px;height: 30px" class="actFilted"
+                                 num="3"></div>
+                        </div>
+                        <span> K-Median 100 | </span>
+
+                        <div id="counter" style="display: inline-block">
+                            Masked Heads:
+                        </div>
+                    </div>
+                    <button class="button" id="resetMod" style="position: absolute;margin-left: 20px"> reset Selection
                     </button>
-                    <select style="display: inline-block;margin-right: 25px" class="one-half" id="models">
-
-                    </select>
-                    <span style="margin-top: -20%">K-Median 0</span>
-                    <div style="display: inline-block;vertical-align: middle">
-                        <div style="background-color: #bbd8e6;width: 30px;height: 30px" class="actFilted"
-                             num="0"></div>
-                        <div style="background-color: #cbecaf;width: 30px;height: 30px" class="actFilted"
-                             num="1"></div>
-                        <div style="background-color: #f8e4c5;width: 30px;height: 30px" class="actFilted"
-                             num="2"></div>
-                        <div style="background-color: #f3cfdb;width: 30px;height: 30px" class="actFilted"
-                             num="3"></div>
-                    </div>
-                    <span> K-Median 100 </span>
-
-                    <div id="counter">
-                        Masked Heads:
-                    </div>
-                </div>
-                <button class="button" id="resetMod" style="position: absolute;margin-left: 20px"> reset Selection
-                </button>
-            </div>
-
-
-            <div style="width: 100%;position: relative">
-
-                <svg id="model"
-                     style="width: 980px;height: 260px;margin-top: 30px;background-color: #fafafa;border: thin solid #f3f3f3;padding: 1.125em;"></svg>
-                <svg width="150" id="res"
-                     style=";background-color: #fafafa;border: thin solid #f3f3f3;padding: 1.125em;position: absolute;right: 0;top:25%">
-
-                </svg>
-                <div style="position: absolute;left: 50%;top: 32%;visibility: hidden" id="loader">
-                    <img src="static/assets/images/load.gif" style="width: 85px"/>
-                    <h3> Loading ... </h3>
                 </div>
 
-            </div>
 
-        </div>
+                <div style="width: 100%;position: relative">
 
-    </div>
-
-    <div class="row">
-        <div class="three columns">
-
-
-            <div style="margin-top: 60px">
-                <svg id="sceneGraph"
-                     style="width: 80%;height:
-                         400px;background-color: #fafafa;border: thin solid #f3f3f3;padding: 0.125em;"></svg>
-            </div>
-
-        </div>
-        <div class="eight columns">
-
-            <div style="width:100%;height: 540px;position: relative;background-color: #fafafa;border: thin solid #f3f3f3;padding: 0.125em;">
-                <div style="width:500px;height: 500px;position: relative;display: inline-block;">
-                    <canvas style="width: 100%;height: 100%" id="heatm"></canvas>
-                </div>
-                <div style="width:54%;height: 90%;position: relative;display: inline-block;padding-left: 12px">
-                    <svg id="stacked" style="width: 100%;height: 100%;">
+                    <svg id="model"
+                         style="width: 980px;height: 260px;margin-top: 30px;background-color: #fafafa;border: thin solid #f3f3f3;padding: 1.125em;"></svg>
+                    <svg width="150" id="res"
+                         style=";background-color: #fafafa;border: thin solid #f3f3f3;padding: 1.125em;position: absolute;right: 0;top:25%">
 
                     </svg>
+                    <div style="position: absolute;left: 50%;top: 32%;visibility: hidden" id="loader">
+                        <!--                        <img src="static/assets/images/load.gif" style="width: 85px"/>
+                                                <h3> Loading ... </h3>-->
+                    </div>
+
                 </div>
 
             </div>
+
         </div>
+
+        <div class="row">
+            <div class="three columns">
+
+
+                <div style="margin-top: 60px">
+                    <svg id="sceneGraph"
+                         style="width: 80%;height:
+                         400px;background-color: #fafafa;border: thin solid #f3f3f3;padding: 0.125em;"></svg>
+                </div>
+
+            </div>
+            <div class="eight columns">
+
+                <div style="width:100%;height: 540px;position: relative;background-color: #fafafa;border: thin solid #f3f3f3;padding: 0.125em;">
+                    <div style="width:500px;height: 500px;position: relative;display: inline-block;">
+                        <canvas style="width: 100%;height: 100%" id="heatm"></canvas>
+                    </div>
+                    <div style="width:54%;height: 90%;position: relative;display: inline-block;padding-left: 12px">
+                        <svg id="stacked" style="width: 100%;height: 100%;">
+
+                        </svg>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
 
     </div>
 
 
-</div>
+    <script>
+        // load_data_light().then(r => init(r));
 
-
-<script>
-    // load_data_light().then(r => init(r));
-
-    const keymap = {};
-    onkeyup = function (e) {
-        if (e.keyCode in keymap) {
-            keymap[e.keyCode] = false;
-        }
-    };
-
-    onkeydown = function (e) {
-        e = e || event;
-        keymap[e.keyCode] = e.type === 'keydown';
-
-    };
-
-
-    $("#saveState").on("click", function () {
-
-        oldKmean = JSON.parse(JSON.stringify(currKmean)) // DEEP COPY
-        oldHeatmaps = JSON.parse(JSON.stringify(currHeatmaps)) // DEEP COPY
-        oldHeatLabels = JSON.parse(JSON.stringify(currHeatLabels)) // DEEP COPY
-
-    });
-
-
-    $("#makeDiff").on("click", function () {
-
-        let hk = Object.keys(currHeatmaps)
-
-        $(this).toggleClass("button-primary")
-
-        let diffHeat = {};
-        let svg = d3.select("#model")
-        for (let i = 0; i < hk.length; i++) {
-            diffHeat[hk[i]] = makeDiff(currHeatmaps[hk[i]], oldHeatmaps[hk[i]])
-            svg.select("#" + hk[i]).attr("fill", diff_col(agDiff(diffHeat[hk[i]])));
-
-        }
-
-        currDiffHeat = diffHeat;
-        diff_bool = !diff_bool
-        fdiff_bool = !fdiff_bool
-
-
-    });
-
-
-    $("#fullDiff").on("click", function () {
-
-        let hk = Object.keys(currHeatmaps)
-
-        $(this).toggleClass("button-primary")
-
-        let diffHeat = {};
-        let svg = d3.select("#model")
-        for (let i = 0; i < hk.length; i++) {
-            diffHeat[hk[i]] = makeDiff2(currHeatmaps[hk[i]], oldHeatmaps[hk[i]])
-            console.log(hk[i]);
-            console.log(currHeatmaps[hk[i]]);
-            console.log(oldHeatmaps[hk[i]]);
-            console.log(diffHeat[hk[i]]);
-            console.log("-------------");
-            svg.select("#" + hk[i]).attr("fill", diff_col(agDiff(diffHeat[hk[i]])));
-
-        }
-
-        currDiffHeat = diffHeat;
-        fdiff_bool = !fdiff_bool;
-
-
-    });
-
-    $("#ggroup").change(function () {
-
-        d3.selectAll(".umapDot").style("opacity", 0.05)
-        d3.selectAll(".umapDot").filter(d => d.global_group === this.value).style("opacity", 0.8).attr("r", 4)
-    })
-
-
-    $("#function").change(function () {
-
-        d3.selectAll(".umapDot").style("opacity", 0.05)
-        d3.selectAll(".umapDot").filter(d => d.functions.indexOf(this.value) >= 0).style("opacity", 0.8).attr("r", 4)
-    })
-
-
-    $("#reset").on("click", function () {
-
-        d3.selectAll(".umapDot").style("opacicty", 0.8).attr("r", 2.5)
-
-    })
-
-
-    $("#question").change(function () {
-        d3.selectAll(".umapDot").style("opacity", 0.05)
-        d3.selectAll(".umapDot").filter(d => d.question.toLowerCase().includes(this.value.toLowerCase())).style("opacity", 0.8).attr("r", 4)
-    })
-
-
-    $("#resetMod").click(function () {
-        attsMaps = [];
-        d3.selectAll("#model rect").attr("class", "");
-        $(".kmeanSelected").toggleClass("kmeanSelected")
-    })
-
-    $("#go").click(function () {
-
-        d3.select("#proj").transition().duration(470).style("opacity", "0.2")
-        $("#loader").css("visibility", "visible")
-
-        let form = new FormData();
-        form.append("units", attsMaps);
-
-        $.ajax({
-            type: "POST",
-            url: "/proj",
-            processData: false,
-            contentType: false,
-            data: form,
-            success: function (d) {
-                d = JSON.parse(d);
-
-                for (let i = 0; i < curData.length; i++) {
-                    curData[i].k_dist = d["proj"][i]
-                }
-                plotter_init(curData)
-
-                d3.select("#proj").transition().duration(170).style("opacity", "1")
-                $("#loader").css("visibility", "hidden")
+        const keymap = {};
+        onkeyup = function (e) {
+            if (e.keyCode in keymap) {
+                keymap[e.keyCode] = false;
             }
-        })
-    });
-
-
-    $(".actFilted").on("click", function () {
-
-        let elem = $(this)
-        let threshes = [20, 35, 70, 101];
-        let bases = [0, 20, 35, 70]
-        let nb = elem.attr("num")
-
-
-        let temp = findElems(currKmean, threshes[nb], bases[nb])
-
-        // console.log(temp);
-
-        if (keymap[16]) {
-            attsMaps = union_arrays(attsMaps, temp)
-        } else {
-            console.log('lalala');
-            attsMaps = temp
-            $(".kmeanSelected").toggleClass("kmeanSelected")
-        }
-
-        d3.selectAll("#model rect").attr("class", "");
-        for (let i = 0; i < attsMaps.length; i++) {
-            d3.select("#" + attsMaps[i]).attr("class", "selected")
-        }
-
-        elem.toggleClass("kmeanSelected")
-        UpdateCounter()
-
-    });
-
-
-    $("#ask-quest").change(function () {
-        let form = new FormData();
-        form.append("units", attsMaps);
-        form.append("question", $("#ask-quest").val());
-        form.append("image", curImg + ".jpg");
-        form.append("disp", disp);
-        $.ajax({
-            type: "POST",
-            url: "https://visqa.liris.cnrs.fr/ask",
-            processData: false,
-            contentType: false,
-            data: form,
-            success: function (d) {
-                ask(d)
-            }
-        })
-    })
-
-    $("#ask").click(function () {
-        let form = new FormData();
-        form.append("units", attsMaps);
-        form.append("question", $("#ask-quest").val());
-        form.append("image", curImg + ".jpg");
-        form.append("disp", disp);
-
-        $.ajax({
-            type: "POST",
-            url: "https://visqa.liris.cnrs.fr/ask",
-            processData: false,
-            contentType: false,
-            data: form,
-            success: function (d) {
-                ask(d)
-            }
-        })
-
-    })
-
-
-    $("#model").on("click", "rect", function () {
-        console.log('lalal');
-
-        let elem = $(this);
-        let type = elem.attr("type");
-        let name = elem.attr("name");
-        let nb = elem.attr("nb");
-
-
-        if (type === "0") {
-            console.log("block");
-
-            let temp = block2names(name, nb);
-
-            if (keymap[16]) {
-                attsMaps = union_arrays(attsMaps, temp)
-            } else {
-                attsMaps = temp
-            }
-
-        } else if (type === "1") {
-            let temp = layer2names(name, nb);
-
-            if (keymap[16]) {
-                attsMaps = union_arrays(attsMaps, temp)
-            } else {
-                attsMaps = temp
-            }
-
-        } else if (type === "2") {
-            let temp = [elem.attr("id")]
-
-            if (keymap[16]) {
-                attsMaps = union_arrays(attsMaps, temp)
-            } else {
-                attsMaps = temp
-            }
-
-        }
-
-        console.log(attsMaps);
-
-        d3.selectAll("#model rect").attr("class", "");
-        for (let i = 0; i < attsMaps.length; i++) {
-            d3.select("#" + attsMaps[i]).attr("class", "selected")
-        }
-        UpdateCounter()
-    });
-
-    $("#imSlide").on("input", function () {
-
-        let im = new Image();
-        let val = imgs[$(this).val()]
-
-        im.onload = function () {
-
-            let can = document.getElementById("inVis")
-
-            let cont = can.getContext('2d');
-
-            imShown = im
-            let rate = fixRatio2([im.width, im.height], [300, 300])
-
-            can.width = rate[0]
-            can.height = rate[1]
-
-            cont.drawImage(im, 0, 0, rate[0], rate[1])
         };
 
-        im.src = baseUrl + val + ".jpg"
-        if (modType === 'oracle') {
-            fillQuest(val)
-        }
-    })
+        onkeydown = function (e) {
+            e = e || event;
+            keymap[e.keyCode] = e.type === 'keydown';
+
+        };
 
 
-    $("#model").on("mouseover", "rect", function () {
+        $("#saveState").on("click", function () {
 
-        let elem = $(this)
-        if (!keymap[17]) {
+            oldKmean = JSON.parse(JSON.stringify(currKmean)) // DEEP COPY
+            oldHeatmaps = JSON.parse(JSON.stringify(currHeatmaps)) // DEEP COPY
+            oldHeatLabels = JSON.parse(JSON.stringify(currHeatLabels)) // DEEP COPY
 
-            if (asked && elem.attr("type") == 2) {
+        });
 
-                let id = elem.attr("id")
 
-                let data = currHeatmaps[id];
+        $("#makeDiff").on("click", function () {
 
-                if (diff_bool || fdiff_bool) {
-                    data = currDiffHeat[id]
+            let hk = Object.keys(currHeatmaps)
+
+            $(this).toggleClass("button-primary")
+
+            let diffHeat = {};
+            let svg = d3.select("#model")
+            for (let i = 0; i < hk.length; i++) {
+                diffHeat[hk[i]] = makeDiff(currHeatmaps[hk[i]], oldHeatmaps[hk[i]])
+                svg.select("#" + hk[i]).attr("fill", diff_col(agDiff(diffHeat[hk[i]])));
+
+            }
+
+            currDiffHeat = diffHeat;
+            diff_bool = !diff_bool
+            fdiff_bool = !fdiff_bool
+
+
+        });
+
+
+        $("#fullDiff").on("click", function () {
+
+            let hk = Object.keys(currHeatmaps)
+
+            $(this).toggleClass("button-primary")
+
+            let diffHeat = {};
+            let svg = d3.select("#model")
+            for (let i = 0; i < hk.length; i++) {
+                diffHeat[hk[i]] = makeDiff2(currHeatmaps[hk[i]], oldHeatmaps[hk[i]])
+                console.log(hk[i]);
+                console.log(currHeatmaps[hk[i]]);
+                console.log(oldHeatmaps[hk[i]]);
+                console.log(diffHeat[hk[i]]);
+                console.log("-------------");
+                svg.select("#" + hk[i]).attr("fill", diff_col(agDiff(diffHeat[hk[i]])));
+
+            }
+
+            currDiffHeat = diffHeat;
+            fdiff_bool = !fdiff_bool;
+
+
+        });
+
+        $("#ggroup").change(function () {
+
+            d3.selectAll(".umapDot").style("opacity", 0.05)
+            d3.selectAll(".umapDot").filter(d => d.global_group === this.value).style("opacity", 0.8).attr("r", 4)
+        })
+
+
+        $("#function").change(function () {
+
+            d3.selectAll(".umapDot").style("opacity", 0.05)
+            d3.selectAll(".umapDot").filter(d => d.functions.indexOf(this.value) >= 0).style("opacity", 0.8).attr("r", 4)
+        })
+
+
+        $("#reset").on("click", function () {
+
+            d3.selectAll(".umapDot").style("opacicty", 0.8).attr("r", 2.5)
+
+        })
+
+
+        $("#question").change(function () {
+            d3.selectAll(".umapDot").style("opacity", 0.05)
+            d3.selectAll(".umapDot").filter(d => d.question.toLowerCase().includes(this.value.toLowerCase())).style("opacity", 0.8).attr("r", 4)
+        })
+
+
+        $("#resetMod").click(function () {
+            attsMaps = [];
+            d3.selectAll("#model rect").attr("class", "");
+            $(".kmeanSelected").toggleClass("kmeanSelected")
+        })
+
+        $("#go").click(function () {
+
+            d3.select("#proj").transition().duration(470).style("opacity", "0.2")
+            $("#loader").css("visibility", "visible")
+
+            let form = new FormData();
+            form.append("units", attsMaps);
+
+            $.ajax({
+                type: "POST",
+                url: "/proj",
+                processData: false,
+                contentType: false,
+                data: form,
+                success: function (d) {
+                    d = JSON.parse(d);
+
+                    for (let i = 0; i < curData.length; i++) {
+                        curData[i].k_dist = d["proj"][i]
+                    }
+                    plotter_init(curData)
+
+                    d3.select("#proj").transition().duration(170).style("opacity", "1")
+                    $("#loader").css("visibility", "hidden")
+                }
+            })
+        });
+
+
+        $(".actFilted").on("click", function () {
+
+            let elem = $(this)
+            let threshes = [20, 35, 70, 101];
+            let bases = [0, 20, 35, 70]
+            let nb = elem.attr("num")
+
+
+            let temp = findElems(currKmean, threshes[nb], bases[nb])
+
+            // console.log(temp);
+
+            if (keymap[16]) {
+                attsMaps = union_arrays(attsMaps, temp)
+            } else {
+                console.log('lalala');
+                attsMaps = temp
+                $(".kmeanSelected").toggleClass("kmeanSelected")
+            }
+
+            d3.selectAll("#model rect").attr("class", "");
+            for (let i = 0; i < attsMaps.length; i++) {
+                d3.select("#" + attsMaps[i]).attr("class", "selected")
+            }
+
+            elem.toggleClass("kmeanSelected")
+            UpdateCounter()
+
+        });
+
+
+        $("#ask-quest").change(function () {
+            let form = new FormData();
+            form.append("units", attsMaps);
+            form.append("question", $("#ask-quest").val());
+            form.append("image", curImg + ".jpg");
+            form.append("disp", disp);
+            $.ajax({
+                type: "POST",
+                url: "https://visqa.liris.cnrs.fr/ask",
+                processData: false,
+                contentType: false,
+                data: form,
+                success: function (d) {
+                    ask(d)
+                }
+            })
+        })
+
+        $("#ask").click(function () {
+            let form = new FormData();
+            form.append("units", attsMaps);
+            form.append("question", $("#ask-quest").val());
+            form.append("image", curImg + ".jpg");
+            form.append("disp", disp);
+
+            $.ajax({
+                type: "POST",
+                url: "https://visqa.liris.cnrs.fr/ask",
+                processData: false,
+                contentType: false,
+                data: form,
+                success: function (d) {
+                    ask(d)
+                }
+            })
+
+        })
+
+
+        $("#model").on("click", "rect", function () {
+            console.log('lalal');
+
+            let elem = $(this);
+            let type = elem.attr("type");
+            let name = elem.attr("name");
+            let nb = elem.attr("nb");
+
+
+            if (type === "0") {
+                console.log("block");
+
+                let temp = block2names(name, nb);
+
+                if (keymap[16]) {
+                    attsMaps = union_arrays(attsMaps, temp)
+                } else {
+                    attsMaps = temp
                 }
 
-                drawHeat(data, id, [0, 0]);
+            } else if (type === "1") {
+                let temp = layer2names(name, nb);
 
+                if (keymap[16]) {
+                    attsMaps = union_arrays(attsMaps, temp)
+                } else {
+                    attsMaps = temp
+                }
 
-                updateStats(headStat[id])
-                curHeat = data;
-                curname = id
-            }
-        }
-    });
+            } else if (type === "2") {
+                let temp = [elem.attr("id")]
 
+                if (keymap[16]) {
+                    attsMaps = union_arrays(attsMaps, temp)
+                } else {
+                    attsMaps = temp
+                }
 
-    $("#tail").on("mouseover", "img", function () {
-
-        let elem = $(this);
-        if (!keymap[17]) {
-
-            if (curImg !== order[elem.attr("num")]["id"]) {
-                curImg = order[elem.attr("num")]["id"]
-                loadInst(curImg, false)
-                $(".selectedIm").toggleClass("selectedIm")
-                elem.toggleClass("selectedIm")
-            }
-        }
-    });
-
-
-    $("#head").on("mouseover", "img", function () {
-
-        let elem = $(this);
-        if (!keymap[17]) {
-
-            if (curImg !== order[elem.attr("num")]["id"]) {
-                curImg = order[elem.attr("num")]["id"]
-                loadInst(curImg, true)
-                $(".selectedIm").toggleClass("selectedIm")
-                elem.toggleClass("selectedIm")
-            }
-        }
-    });
-
-    d3.select("#heatm").on("mousemove", function () {
-        if (curname) {
-
-            let data = currHeatmaps[curname];
-
-            if (diff_bool || fdiff_bool) {
-                data = currDiffHeat[curname]
             }
 
-            // let data = (diff_bool ? currDiffHeat[curname] : currHeatmaps[curname])
-            drawHeat(data, curname, d3.mouse(this))
-        }
-    })
+            console.log(attsMaps);
 
-    $("#models").on("input", function () {
-        let elem = $(this)
-        // console.log()
-        let dis = elem.val()
+            d3.selectAll("#model rect").attr("class", "");
+            for (let i = 0; i < attsMaps.length; i++) {
+                d3.select("#" + attsMaps[i]).attr("class", "selected")
+            }
+            UpdateCounter()
+        });
 
-        let mode = models.filter(d => d.display == dis)[0]
-        console.log(mode);
+        $("#imSlide").on("input", function () {
 
-        d3.select("#model").transition().duration(470).style("opacity", "0.2")
-        $("#loader").css("visibility", "visible")
-        switchMod(mode)
+            let im = new Image();
+            let val = imgs[$(this).val()]
 
-    })
+            im.onload = function () {
 
-    $("#plusTail").on("click", function () {
+                let can = document.getElementById("inVis")
 
-        fillSide($("#tail"), order.slice(loadedImgs[0], loadedImgs[0] + 20), false)
+                let cont = can.getContext('2d');
 
-    })
+                imShown = im
+                let rate = fixRatio2([im.width, im.height], [300, 300])
 
-    $("#plusHead").on("click", function () {
-        fillSide($("#head"), order.slice(order.length + 1 - (loadedImgs[1] + 20), order.length + 1 - loadedImgs[1]).reverse(), true)
-    })
+                can.width = rate[0]
+                can.height = rate[1]
+
+                cont.drawImage(im, 0, 0, rate[0], rate[1])
+            };
+
+            im.src = baseUrl + val + ".jpg"
+            if (modType === 'oracle') {
+                fillQuest(val)
+            }
+        })
 
 
-    async function fillSide(elem, data, thead) {
+        $("#model").on("mouseover", "rect", function () {
 
-        for (let iter = 0; iter < data.length; iter++) {
+            let elem = $(this)
+            if (!keymap[17]) {
+
+                if (asked && elem.attr("type") == 2) {
+
+                    let id = elem.attr("id")
+
+                    let data = currHeatmaps[id];
+
+                    if (diff_bool || fdiff_bool) {
+                        data = currDiffHeat[id]
+                    }
+
+                    drawHeat(data, id, [0, 0]);
 
 
-            let img = await addImageProcess(baseUrl + data[iter]["id"] + ".jpg", [75, 75]);
+                    updateStats(headStat[id])
+                    curHeat = data;
+                    curname = id
+                }
+            }
+        });
 
-            img.setAttribute("num", iter)
+
+        $("#tail").on("mouseover", "img", function () {
+
+            let elem = $(this);
+            if (!keymap[17]) {
+
+                if (curImg !== order[elem.attr("num")]["id"]) {
+                    curImg = order[elem.attr("num")]["id"]
+                    loadInst(curImg, false)
+                    $(".selectedIm").toggleClass("selectedIm")
+                    elem.toggleClass("selectedIm")
+                }
+            }
+        });
+
+
+        $("#head").on("mouseover", "img", function () {
+
+            let elem = $(this);
+            if (!keymap[17]) {
+
+                if (curImg !== order[elem.attr("num")]["id"]) {
+                    curImg = order[elem.attr("num")]["id"]
+                    loadInst(curImg, true)
+                    $(".selectedIm").toggleClass("selectedIm")
+                    elem.toggleClass("selectedIm")
+                }
+            }
+        });
+
+        d3.select("#heatm").on("mousemove", function () {
+            if (curname) {
+
+                let data = currHeatmaps[curname];
+
+                if (diff_bool || fdiff_bool) {
+                    data = currDiffHeat[curname]
+                }
+
+                // let data = (diff_bool ? currDiffHeat[curname] : currHeatmaps[curname])
+                drawHeat(data, curname, d3.mouse(this))
+            }
+        })
+
+        $("#models").on("input", function () {
+            let elem = $(this)
+            // console.log()
+            let dis = elem.val()
+
+            let mode = models.filter(d => d.display == dis)[0]
+            console.log(mode);
+
+            d3.select("#model").transition().duration(470).style("opacity", "0.2")
+            $("#loader").css("visibility", "visible")
+            switchMod(mode)
+
+        })
+
+        $("#plusTail").on("click", function () {
+
+            fillSide($("#tail"), order.slice(loadedImgs[0], loadedImgs[0] + 20), false)
+
+        })
+
+        $("#plusHead").on("click", function () {
+            fillSide($("#head"), order.slice(order.length + 1 - (loadedImgs[1] + 20), order.length + 1 - loadedImgs[1]).reverse(), true)
+        })
+
+
+        async function fillSide(elem, data, thead) {
+
+            for (let iter = 0; iter < data.length; iter++) {
+
+
+                let img = await addImageProcess(baseUrl + data[iter]["id"] + ".jpg", [75, 75]);
+
+                img.setAttribute("num", iter)
+
+                if (thead) {
+                    elem.prepend(img)
+                    img.setAttribute("num", order.length - (loadedImgs[1] + iter))
+                } else {
+                    elem.append(img)
+                    img.setAttribute("num", loadedImgs[0] + iter)
+                }
+
+            }
 
             if (thead) {
-                elem.prepend(img)
-                img.setAttribute("num", order.length - (loadedImgs[1] + iter))
+                loadedImgs[1] += data.length
+                elem.animate({scrollLeft: 0}, 200);
             } else {
-                elem.append(img)
-                img.setAttribute("num", loadedImgs[0] + iter)
+                loadedImgs[0] += data.length
+                elem.animate({scrollLeft: loadedImgs[0] * 60}, 200);
             }
 
         }
 
-        if (thead) {
-            loadedImgs[1] += data.length
-            elem.animate({scrollLeft: 0}, 200);
-        } else {
-            loadedImgs[0] += data.length
-            elem.animate({scrollLeft: loadedImgs[0] * 60}, 200);
-        }
 
-    }
-
-
-</script>
+    </script>
 
 </body>
 </html>
