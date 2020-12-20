@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- Basic Page Needs
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta charset="utf-8">
+    <title>Projection</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="{{ url_for('static', filename='assets/js/umap.js')}}"></script>
+    <!-- Mobile Specific Metas
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- FONT
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+    <!-- CSS
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/normalize.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/skeleton.css')}}">
+
+    <!-- Favicon
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="icon" type="image/png" href=" {{ url_for('static', filename='assets/images/favicon/favicon.ico')}}   ">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+            integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+    <style>
+
+        #productName span:hover {
+
+            background-color: rgba(107, 107, 107, 0.49);
+            cursor: pointer;
+
+
+        }
+
+
+        .subBlock {
+            fill: #0e1a6a9e;
+        }
+
+        input::-webkit-calendar-picker-indicator {
+            opacity: 100;
+        }
+
+        label, select, input, button {
+
+            margin: 2px;
+        }
+
+        .selected {
+
+            fill: #444444;
+            stroke: #D1D1D1;
+        }
+
+        .selected:hover {
+            fill: #a9a9a9 !important;
+        }
+
+        #model rect {
+            cursor: pointer;
+        }
+
+
+        #model rect:hover {
+            cursor: pointer;
+            fill: #333333;
+            stroke: #D1D1D1;
+        }
+
+        .actFilted {
+
+            border: #333333 solid 1px;
+            margin: 2px;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+
+        .actFilted:hover {
+
+
+            background-color: #a9a9a9 !important;
+        }
+
+        .kmeanSelected {
+            background-color: #444444 !important;
+        }
+
+
+        body {
+
+            user-select: none;
+        }
+
+        #head div, #tail div {
+            border: #555555 solid 1px;
+            margin: 1px;
+            filter: saturate(35%) brightness(70%) opacity(70%);
+            border-radius: 3px;
+            height: 65px;
+            width: 35px;
+            display: inline-block;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            cursor: pointer;
+            position: relative;
+        }
+
+
+        .reducedRect {
+            width: 0;
+            height: 0;
+        }
+
+        #heatm {
+            cursor: pointer;
+        }
+
+        #head div:hover, #tail div:hover {
+
+            filter: none !important;
+            border: #498db4 solid 1px !important;
+
+
+        }
+
+        .selectedIm {
+            border: red solid 1px !important;
+            filter: none !important;
+        }
+
+        .plusBtn {
+            cursor: pointer;
+        }
+
+        .plusBtn:hover {
+            transform: scale(1.2, 1.2);
+        }
+
+
+        .__range input {
+            outline: none;
+            -webkit-appearance: none;
+            background-color: #aaa;
+            height: 6px;
+            width: 98%;
+            /*margin: 10px auto;*/
+            cursor: pointer;
+        }
+
+        .__range input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background-color: #017ea6;
+            border-radius: 50%;
+            cursor: -moz-grab;
+            cursor: -webkit-grab;
+            cursor: pointer;
+        }
+
+        .__range input::-moz-range-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background-color: #017ea6;
+            border-radius: 50%;
+            cursor: -moz-grab;
+            cursor: -webkit-grab;
+        }
+
+        .__range input::-ms-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background-color: #017ea6;
+            border-radius: 50%;
+            cursor: -moz-grab;
+            cursor: -webkit-grab;
+        }
+
+        .__range-step {
+            position: relative;
+        }
+
+        .__range-max {
+            float: right;
+        }
+
+        .__range-step input::-webkit-slider-thumb {
+            background: transparent;
+        }
+
+        .__range-step input::-moz-range-thumb {
+            background: transparent;
+        }
+
+        .__range-step input::-ms-thumb {
+            background: transparent;
+        }
+
+        .__range-step datalist {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            height: auto;
+            bottom: 21px;
+            /* disable text selection */
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* Standard */
+            /* disable click events */
+            pointer-events: none;
+            text-indent: -8px;
+            cursor: pointer;
+        }
+
+        .__range-step datalist option {
+            width: 10px;
+            height: 10px;
+            min-height: 10px;
+            border-radius: 100px;
+            /* hide text */
+            white-space: nowrap;
+            padding: 5px;
+            line-height: 50px;
+            cursor: pointer;
+        }
+
+
+        .__range-step-popup output {
+            position: absolute;
+            background-color: #017ea6;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            color: white;
+            border-radius: 100px;
+            display: inline-block;
+            font-size: 12px;
+            bottom: 100%;
+            left: 0;
+            vertical-align: middle;
+            line-height: 30px;
+        }
+
+        .__range-step-popup .__range-output-square {
+            padding: 0 5px;
+            min-width: 25px;
+            width: auto !important;
+            border-radius: 5px !important;
+        }
+
+        .__range-step-popup output:after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-top: 10px solid #017ea6;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            top: 90%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -1px;
+        }
+
+        .__range-step-popup datalist {
+            overflow: hidden;
+        }
+
+        .__range-step {
+            margin: 0 40px;
+        }
+
+        .__range-step-popup {
+            margin: 40px 40px;
+        }
+
+        input::-webkit-calendar-picker-indicator {
+            display: none; /* remove default arrow */
+        }
+
+        .myarrow:after {
+            content: url(https://i.stack.imgur.com/i9WFO.png);
+            margin-left: -20px;
+            padding: .1em;
+            pointer-events: none;
+        }
+
+
+        #questDisp {
+            overflow: hidden;
+        }
+
+        #questDisp p {
+            display: inline-block;
+            margin-right: 15px;
+        }
+
+    </style>
+</head>
+<body>
+<script src="{{ url_for('static', filename='assets/js/main.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/mapsHandler.js')}}"></script>
+
+<!-- Primary Page Layout
+–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+<!--Icons made by <a href="https://www.flaticon.com/authors/dmitri13" title="dmitri13">dmitri13</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>-->
+
+<div class="container" style="margin-left: auto;width:1750px!important;max-width: 1750px">
+    <div class="row">
+        <div class="twelve column" style="margin-top: 0.8%;position: relative">
+            <!--            <div id="questDisp" style="width: 100%;height: 35px"></div>-->
+            <div style="padding: 0.25em;height: 84px;width: 100%;display: inline-block"
+                 id="selFlat">
+                <div id="tail"
+                     style="height: 100%;width: 96.6%;display: block;  overflow-x: scroll; overflow-y: hidden;   white-space: nowrap;">
+                    <!--                     style="height: 100%;width: 95.5%;display: inline-block;overflow-x: scroll;overflow-y: hidden">-->
+
+
+                </div>
+                <!--                <div id="midSel" style="height: 100%;width: 10%;display: inline-block;position: relative">
+
+                                    <img src="/static/assets/images/more.png"
+                                         style="height: 40px;width: auto;top: 20%;left: 38.5%;position: absolute">
+                                    <img src="/static/assets/images/add.png" id="plusHead" class="plusBtn"
+                                         style="height: 40px;width: auto;top: 20%;right: 6%;position: absolute">
+                                </div>-->
+                <!--                <div id="head" style="height: 100%;width: 45%;display: flex;overflow-x: scroll;overflow-y: hidden">-->
+
+                <!--                </div>-->
+            </div>
+            <div style="display: inline-block">
+                <img src="/static/assets/images/add.png" id="plusTail" class="plusBtn"
+                     style="height: 40px;width: auto;top: 15%;right: 0.2%;position: absolute">
+            </div>
+
+            <svg id="qDistrib"
+                 style="width: 100%;height: 30px;margin-top: -6px;position: absolute">
+
+            </svg>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 1.5%;position: relative">
+        <div id="asker" class="three columns">
+            <div style=";z-index: 99;position: relative">
+
+                <!--          <span class="myarrow">-->
+                <input type="text" id="ask-quest"
+                       style="width: 382px;border: none;border-bottom: solid #555555 thin;border-radius: 0;padding: 0;height: 21.5px"
+                       placeholder="Ask a question about the picture"
+                       list="productName">
+                <!--          </span>-->
+                <div id="productName"
+                     style="height: 250px;direction: rtl;overflow-y: auto;padding-left: 5px;margin-left: -2px">
+
+                </div>
+
+                <!--                <datalist id="productName">-->
+                <!--                    <option value="bob">bob</option>-->
+                <!--                </datalist>-->
+
+            </div>
+            <div style="width: 350px;height: 320px;position:relative;top:48px;text-align: center">
+                <canvas id="inVis"
+                        style=";border: solid rgba(65,65,65,0.5) thin;z-index: 99;position: relative;display: inline-block"></canvas>
+                <!--                <input type="range" id="imSlide" min="0" value="0" class="u-full-width">-->
+            </div>
+
+            <svg id="inputLinks"
+                 style="width: 305px;height: 550px;position: absolute;top:4px;left:177px;z-index: 0"></svg>
+
+
+        </div>
+        <div class="nine columns">
+            <div style="display: inline-block;position: relative;z-index: 99">
+
+                <div style="position: relative;display: inline-block;left: 0">
+                    <button class="button-primary" style="display:inline-block;padding: 0 12px" id="ask">Ask</button>
+                    <button id="saveState"> Save</button>
+                    <!--                        <button id="makeDiff"> AbsDiff</button>-->
+                    <button id="fullDiff">
+                        Compare
+                    </button>
+                    <select style="display: inline-block;margin-right: 25px;cursor:pointer;" class="one-half"
+                            id="models">
+
+                    </select>
+                    <span style="position:relative;top: -20px">K=0</span>
+                    <div style="display: inline-block;vertical-align: middle;margin-top: -40px">
+                        <div style="background-color: #bbd8e6;width: 36px;height: 36px;vertical-align: middle;"
+                             class="actFilted"
+                             num="0">
+                            <p style="margin-top: 4px;margin-left: 3px">k<12</p>
+                        </div>
+                        <div style="background-color: #cbecaf;width: 36px;height: 36px;vertical-align: middle;"
+                             class="actFilted"
+                             num="1">
+                            <p style="margin-top: 4px;margin-left: 3px">k<25</p>
+                        </div>
+                        <div style="background-color: #f8e4c5;width: 36px;height: 36px;vertical-align: middle;"
+                             class="actFilted"
+                             num="2">
+                            <p style="margin-top: 4px;margin-left: 3px">k<50</p>
+                        </div>
+                        <div style="background-color: #f3cfdb;width: 36px;height: 36px;    vertical-align: middle;"
+                             class="actFilted"
+                             num="3">
+                            <p style="margin-top: 4px;margin-left: 3px">k<99</p>
+                        </div>
+                    </div>
+                    <span style="position:relative;top: -20px"> K=100 </span>
+
+                    <div style="position: absolute;left:50.6%;top: 32px;width:130px" class="__range __range-step ">
+                        <input type="range" min="0" max="2" value="1" id="kmod" style="width: 130px" list="ticks1">
+
+                        <datalist id="ticks1">
+                            <option value="0">min</option>
+                            <option value="1">med</option>
+                            <option value="2">max</option>
+
+                        </datalist>
+                        <!--                        <p style="display: inline-block"> min</p>-->
+                        <!--                        <p style="display: inline-block"> med</p>-->
+                        <!--                        <p style="display: inline-block"> max</p>-->
+                    </div>
+
+                    <button class="button" id="resetMod"> reset Selection
+                    </button>
+                    <div id="counter" style="display: inline-block">
+                        Masked Heads:
+                    </div>
+                </div>
+            </div>
+
+
+            <div style="width: 100%;position: relative">
+
+                <svg id="model"
+                     style="width: 100%;height: 260px;margin-top: 30px"></svg>
+                <!--                <svg width="150" id="res"-->
+                <!--                     style=";background-color: #fafafa;border: thin solid #f3f3f3;padding: 1.125em;position: absolute;right: 0;top:25%">-->
+
+                <!--                </svg>-->
+                <div style="position: absolute;left: 50%;top: 32%;visibility: hidden" id="loader">
+                    <img src="static/assets/images/load.gif" style="width: 85px"/>
+                    <h3> Loading ... </h3>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row" style="margin-top: -220px">
+        <!--        <div class="three columns">
+
+
+                    <div style="margin-top: 60px">
+                        <svg id="sceneGraph"
+                             style="width: 80%;height:
+                                 400px;background-color: #fafafa;border: thin solid #f3f3f3;padding: 0.125em;"></svg>
+                    </div>
+
+                </div>-->
+        <div class="nine columns" style="display: inline-block;position: relative;text-align: center;float: right">
+            <h4 id="detailab"
+                style="position: absolute;top: -25px;margin-left: -500px;font-size: 16pt;display: inline"></h4>
+
+            <h4 id="detailab2"
+                style="position: absolute;top: -25px;margin-left: 185px;font-size: 16pt;display: inline"></h4>
+
+            <button id="norm"
+                    style="line-height: 25px;padding: 0 3px;position: absolute;height: auto;margin-left: 36px;margin-top: 2px;z-index: 99">
+                norm
+            </button>
+
+            <h5
+                    style="position: absolute;top: 16px;right: 15px;font-size: 14pt;display: inline">Per Operation</h5>
+
+            <h5
+                    style="position: absolute;top: 300px;right: 15px;font-size: 14pt;display: inline">Per group</h5>
+
+
+            <div style="width:100%;height: 540px;position: relative;border-top: solid rgba(65,65,65,0.5) thin;border-left: solid rgba(65,65,65,0.5) thin;">
+                <div style="width:500px;height: 500px;position: relative;display: inline-block;">
+                    <canvas style="width: 100%;height: 100%" id="heatm"></canvas>
+                </div>
+                <div style="width:55%;height: 90%;position: relative;display: inline-block;margin-left: 2%">
+                    <svg id="stacked" style="width: 100%;height: 100%;">
+
+                    </svg>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!--    <svg id="temptree" width="800" height="800"></svg>-->
+
+</div>
+
+
+<script>
+    // load_data_light().then(r => init(r));
+
+
+    document.querySelectorAll(".__range-step").forEach(function (ctrl) {
+        var el = ctrl.querySelector('input');
+        var output = ctrl.querySelector('output');
+        var newPoint, newPlace, offset;
+        el.oninput = function () {
+            // colorize step options
+            ctrl.querySelectorAll("option").forEach(function (opt) {
+                if (opt.value <= el.valueAsNumber)
+                    opt.style.backgroundColor = '#017ea6';
+                else
+                    opt.style.backgroundColor = '#aaa';
+            });
+            // colorize before and after
+            var valPercent = (el.valueAsNumber - parseInt(el.min)) / (parseInt(el.max) - parseInt(el.min));
+            var style = 'background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(' +
+                valPercent + ', #017ea6), color-stop(' +
+                valPercent + ', #aaa));';
+            el.style = style;
+
+            // Popup
+            if ((' ' + ctrl.className + ' ').indexOf(' ' + '__range-step-popup' + ' ') > -1) {
+                var selectedOpt = ctrl.querySelector('option[value="' + el.value + '"]');
+                output.innerText = selectedOpt.text;
+                output.style.left = "50%";
+                output.style.left = ((selectedOpt.offsetLeft + selectedOpt.offsetWidth / 2) - output.offsetWidth / 2) + 'px';
+            }
+        };
+        el.oninput();
+    });
+
+    window.onresize = function () {
+        document.querySelectorAll(".__range").forEach(function (ctrl) {
+            var el = ctrl.querySelector('input');
+            el.oninput();
+        });
+    };
+
+    const keymap = {};
+    onkeyup = function (e) {
+        if (e.keyCode in keymap) {
+            keymap[e.keyCode] = false;
+        }
+    };
+
+    onkeydown = function (e) {
+        e = e || event;
+        keymap[e.keyCode] = e.type === 'keydown';
+
+        if (keymap[9]) {
+            hideResbool = !hideResbool;
+
+            if (hideResbool) {
+                d3.selectAll(".res").transition().duration(250).style("opacity", 0)
+            } else {
+                d3.selectAll(".res").transition().duration(250).style("opacity", 1)
+            }
+        }
+
+    };
+
+
+    $("#norm").on("click", function () {
+        normed = !normed
+
+        $(this).toggleClass("button-primary")
+        updateStats(headStat[disp][curname], curname)
+    })
+
+
+    $("#saveState").on("click", function () {
+
+        oldKmean = JSON.parse(JSON.stringify(currKmean)) // DEEP COPY
+        oldHeatmaps = JSON.parse(JSON.stringify(currHeatmaps)) // DEEP COPY
+        oldHeatLabels = JSON.parse(JSON.stringify(currHeatLabels)) // DEEP COPY
+
+    });
+
+
+    $("#makeDiff").on("click", function () {
+
+        let hk = Object.keys(currHeatmaps)
+
+        $(this).toggleClass("button-primary")
+
+        let diffHeat = {};
+        let svg = d3.select("#model")
+        for (let i = 0; i < hk.length; i++) {
+            diffHeat[hk[i]] = makeDiff(currHeatmaps[hk[i]], oldHeatmaps[hk[i]])
+            svg.select("#" + hk[i]).attr("fill", diff_col(agDiff(diffHeat[hk[i]])));
+
+        }
+
+        currDiffHeat = diffHeat;
+        diff_bool = !diff_bool
+        fdiff_bool = !fdiff_bool
+
+
+    });
+
+
+    $("#fullDiff").on("click", function () {
+
+
+        $(this).toggleClass("button-primary")
+        fdiff_bool = !fdiff_bool;
+        if (fdiff_bool) {
+            // console.log(oldHeatmaps);
+            let hk = Object.keys(currHeatmaps)
+            let diffHeat = {};
+            let svg = d3.select("#model")
+            for (let i = 0; i < hk.length; i++) {
+                diffHeat[hk[i]] = makeDiff2(currHeatmaps[hk[i]], oldHeatmaps[hk[i]])
+                svg.select("#" + hk[i]).attr("fill", diff_col(agDiff(diffHeat[hk[i]])));
+            }
+
+            currDiffHeat = diffHeat;
+        } else {
+            fillHeads(currKmean)
+        }
+
+
+    });
+
+    $("#resetMod").click(function () {
+        attsMaps = [];
+        let total = Object.keys(currKmean).length
+        $("#counter").html("Masked Heads: " + 0 + "/" + total)
+        d3.selectAll("#model .rectMod").attr("class", "rectMod");
+        $(".kmeanSelected").toggleClass("kmeanSelected")
+        let ref = d3.select("#lang_0_0");
+        let w = ref.attr("ow");
+        let h = ref.attr("oh");
+        d3.selectAll(".rectMod").transition().duration(200).attr("width", w).attr("height", h).style("transform", "translate(" + (0) + "px," + (0) + "px)").style("opacity", "1")
+    })
+
+    $("#go").click(function () {
+
+        d3.select("#proj").transition().duration(470).style("opacity", "0.2")
+        $("#loader").css("visibility", "visible")
+
+        let form = new FormData();
+        form.append("units", attsMaps);
+
+        $.ajax({
+            type: "POST",
+            url: "/proj",
+            processData: false,
+            contentType: false,
+            data: form,
+            success: function (d) {
+                d = JSON.parse(d);
+
+                for (let i = 0; i < curData.length; i++) {
+                    curData[i].k_dist = d["proj"][i]
+                }
+                plotter_init(curData)
+
+                d3.select("#proj").transition().duration(170).style("opacity", "1")
+                $("#loader").css("visibility", "hidden")
+            }
+        })
+    });
+
+
+    $(".actFilted").on("click", function () {
+
+        let elem = $(this)
+        let threshes = [12, 25, 50, 101];
+        let bases = [0, 12, 25, 50]
+        let nb = elem.attr("num")
+
+
+        let temp = findElems(currKmean, threshes[nb], bases[nb])
+
+        // console.log(temp);
+
+        if (keymap[16]) {
+            attsMaps = union_arrays(attsMaps, temp)
+        } else {
+            // console.log('lalala');
+            attsMaps = temp
+            $(".kmeanSelected").toggleClass("kmeanSelected")
+        }
+
+        d3.selectAll("#model .rectMod").attr("class", "rectMod");
+        for (let i = 0; i < attsMaps.length; i++) {
+            d3.select("#" + attsMaps[i]).attr("class", "rectMod selected")
+        }
+
+        elem.toggleClass("kmeanSelected")
+        UpdateCounter()
+
+    });
+
+
+    function getQFromText(q) {
+        let d = metaDat[curImg]["questions"]
+
+        let temp = Object.keys(d)
+        // console.log(temp);
+        temp = temp.map((d, i) => metaDat[curImg]["questions"][d])
+        let res = temp.filter(d => d.question == q)
+
+        if (res.length > 0) {
+            return res[0]
+        } else {
+            return -1
+        }
+    }
+
+
+    $("#productName").on("click", "span", function () {
+
+        $("#ask-quest").val($(this).html())
+        let form = new FormData();
+        form.append("units", attsMaps);
+        form.append("question", $("#ask-quest").val());
+        form.append("image", curImg + ".jpg");
+        form.append("disp", disp);
+
+        currQuest = getQFromText($("#ask-quest").val());
+
+
+        // console.log(currQuest);
+
+        $.ajax({
+            type: "POST",
+            url: "/ask",
+            processData: false,
+            contentType: false,
+            data: form,
+            success: function (d) {
+                ask(d)
+            }
+        })
+
+
+    })
+
+    $("#ask-quest").change(function () {
+        let form = new FormData();
+        form.append("units", attsMaps);
+        form.append("question", $("#ask-quest").val());
+        form.append("image", curImg + ".jpg");
+        form.append("disp", disp);
+
+        currQuest = getQFromText($("#ask-quest").val());
+
+
+        // console.log(currQuest);
+
+        $.ajax({
+            type: "POST",
+            url: "/ask",
+            processData: false,
+            contentType: false,
+            data: form,
+            success: function (d) {
+                ask(d)
+            }
+        })
+    })
+
+    $("#ask").click(function () {
+        let form = new FormData();
+        form.append("units", attsMaps);
+        form.append("question", $("#ask-quest").val());
+        form.append("image", curImg + ".jpg");
+        form.append("disp", disp);
+
+        $.ajax({
+            type: "POST",
+            url: "/ask",
+            processData: false,
+            contentType: false,
+            data: form,
+            // timeout:99999999,
+            success: function (d) {
+                ask(d)
+            }
+        })
+
+    })
+
+
+    $("#model").on("click", "rect", function () {
+        // console.log('lalal');
+
+        let elem = $(this);
+        let type = elem.attr("type");
+        let name = elem.attr("name");
+        let nb = elem.attr("nb");
+
+
+        if (type === "0") {
+            // console.log("block");
+
+            let temp = block2names(name, nb);
+
+            if (keymap[16]) {
+                attsMaps = union_arrays(attsMaps, temp)
+            } else {
+                attsMaps = temp
+            }
+
+        } else if (type === "1") {
+            let temp = layer2names(name, nb);
+            if (keymap[16]) {
+                attsMaps = union_arrays(attsMaps, temp)
+            } else {
+                attsMaps = temp
+            }
+
+        } else if (type === "2") {
+            let temp = [elem.attr("id")]
+
+            if (keymap[16]) {
+                attsMaps = union_arrays(attsMaps, temp)
+            } else {
+                attsMaps = temp
+            }
+
+        }
+
+        // console.log(attsMaps);
+
+        d3.selectAll("#model .rectMod").attr("class", "rectMod");
+        for (let i = 0; i < attsMaps.length; i++) {
+            d3.select("#" + attsMaps[i]).attr("class", "selected rectMod")
+        }
+        UpdateCounter()
+    });
+
+    $("#imSlide").on("input", function () {
+
+        let im = new Image();
+        let val = imgs[$(this).val()]
+
+        im.onload = function () {
+
+            let can = document.getElementById("inVis")
+
+            let cont = can.getContext('2d');
+
+            imShown = im
+            let rate = fixRatio2([im.width, im.height], [300, 300])
+
+            can.width = rate[0]
+            can.height = rate[1]
+
+            cont.drawImage(im, 0, 0, rate[0], rate[1])
+        };
+
+        im.src = baseUrl + val + ".jpg"
+        if (modType === 'oracle') {
+            fillQuest(val)
+        }
+    })
+
+
+    $("#model").on("mouseover", "rect", function () {
+
+        let elem = $(this)
+        if (!keymap[17]) {
+
+            if (asked && elem.attr("type") == 2) {
+
+                let id = elem.attr("id")
+                let data = currHeatmaps[id];
+
+                if (diff_bool || fdiff_bool) {
+                    data = currDiffHeat[id]
+                }
+
+                drawHeat(data, id, [0, 0]);
+
+                $("#detailab").html("Attention Map for head <span style='font-weight:600;" +
+                    "font-style: italic;'>" + id + "</span>")
+                $("#detailab2").html("Global statistics for head <span style='font-weight:600;" +
+                    "    font-style: italic;'>" + id + "</span>")
+                updateStats(headStat[disp][id], id)
+
+                curHeat = data;
+                curname = id
+            }
+        }
+    });
+
+
+    $("#tail").on("click", "div", function () {
+
+        let elem = $(this);
+        if (!keymap[17]) {
+
+            if (curImg !== order[elem.attr("num")]["id"]) {
+                curImg = order[elem.attr("num")]["id"]
+                loadInst(curImg, false)
+                $(".selectedIm").toggleClass("selectedIm")
+                elem.toggleClass("selectedIm")
+            }
+        }
+    });
+
+
+    $("#head").on("click", "div", function () {
+
+        let elem = $(this);
+        if (!keymap[17]) {
+
+            if (curImg !== order[elem.attr("num")]["id"]) {
+                curImg = order[elem.attr("num")]["id"]
+                loadInst(curImg, true)
+                $(".selectedIm").toggleClass("selectedIm")
+                elem.toggleClass("selectedIm")
+            }
+        }
+    });
+
+    d3.select("#heatm").on("mousemove", function () {
+        if (curname) {
+
+            let data = currHeatmaps[curname];
+
+            if (diff_bool || fdiff_bool) {
+                data = currDiffHeat[curname]
+            }
+
+            // let data = (diff_bool ? currDiffHeat[curname] : currHeatmaps[curname])
+            drawHeat(data, curname, d3.mouse(this))
+        }
+    })
+
+    d3.select("#heatm").on("click", function () {
+        if (curname) {
+
+            let data = currHeatmaps[curname];
+
+            if (diff_bool || fdiff_bool) {
+                data = currDiffHeat[curname]
+            }
+
+
+            let res = coord2Inds(d3.mouse(this), curname, data);
+
+            if (res[0][0] < 0) {
+                res[0] = res[0].slice(1)
+                res[1] = res[1].slice(1)
+            } else if (res[0][1] < 0) {
+                res[0] = res[0].slice(0, 1)
+                res[1] = res[1].slice(0, 1)
+            }
+
+            // console.log(res);
+            let heads = Object.keys(getHighHeads(res[0], res[1]))
+
+            let ref = d3.select("#lang_0_0");
+            let w = ref.attr("ow");
+            let h = ref.attr("oh");
+
+            d3.selectAll(".rectMod").transition().duration(300).attr("width", w * 0.33).attr("height", h * 0.33).style("transform", "translate(" + (w * 0.33) + "px," + (h * 0.33) + "px)").style("opacity", "0.4")
+
+            for (let i = 0; i < heads.length; i++) {
+                d3.select("#" + heads[i]).transition().duration(200).attr("width", w).attr("height", h).style("transform", "translate(" + (0) + "px," + (0) + "px)").style("opacity", "1")
+            }
+
+
+            // let data = (diff_bool ? currDiffHeat[curname] : currHeatmaps[curname])
+            // drawHeat(data, curname, d3.mouse(this))
+        }
+    })
+
+
+    $("#models").on("input", function () {
+        let elem = $(this)
+        // console.log()
+        let dis = elem.val()
+
+        let mode = models.filter(d => d.display == dis)[0]
+        // console.log(mode);
+
+        d3.select("#model").transition().duration(470).style("opacity", "0.2")
+        $("#loader").css("visibility", "visible")
+        switchMod(mode)
+
+    })
+
+    $("#plusTail").on("click", function () {
+
+        fillSide($("#tail"), order.slice(loadedImgs[0], loadedImgs[0] + 20), false)
+
+    })
+
+
+    $("#plusHead").on("click", function () {
+        fillSide($("#head"), order.slice(order.length + 1 - (loadedImgs[1] + 20), order.length + 1 - loadedImgs[1]).reverse(), true)
+    })
+
+
+    $("#tail").scroll(function () {
+
+        let cont = $("#tail")
+
+
+        if ((loadedImgs[0] * 37) * 0.98 < cont.scrollLeft() + cont.width()) {
+
+
+            fillSide(cont, order.slice(loadedImgs[0], loadedImgs[0] + 20), false)
+        }
+
+    })
+
+
+    $("#heatm").on("mouseout", function () {
+
+        let can = document.getElementById("inVis")
+        let cont = can.getContext("2d");
+
+
+        let wr = can.width / imShown.width
+        let hr = can.height / imShown.height
+        let rate = fixRatio2([imShown.width, imShown.height], [350, 300])
+
+        can.width = rate[0]
+        can.height = rate[1]
+        cont.globalAlpha = 1
+        cont.drawImage(imShown, 0, 0, rate[0], rate[1])
+
+    })
+
+    // $("#head").scroll(async function () {
+    //     let cont = $("#head")
+    //
+    //     if (55 > cont.scrollLeft() && initFlatDone) {
+    //
+    //         initFlatDone = false;
+    //         console.log("la");
+    //
+    //         cont.scrollLeft(20 * 400)
+    //
+    //         await fillSide(cont, order.slice(order.length + 1 - (loadedImgs[1] + 20), order.length + 1 - loadedImgs[1]).reverse(), true)
+    //         cont.scrollLeft(20 * 400)
+    //
+    //
+    //     } else {
+    //         initFlatDone = true;
+    //     }
+    //
+    // })
+
+    async function fillSide(elem, data, thead) {
+
+        for (let iter = 0; iter < data.length; iter++) {
+
+
+            let div = $('<div/>')
+
+            div.attr("num", iter)
+            div.css("background-image", "url(" + (baseUrl + data[iter]["id"] + ".jpg") + ")")
+
+
+            if (thead) {
+                elem.prepend(div)
+                div.attr("num", order.length - (loadedImgs[1] + iter))
+            } else {
+                elem.append(div)
+                div.attr("num", loadedImgs[0] + iter)
+            }
+
+        }
+
+        if (thead) {
+            loadedImgs[1] += data.length
+            // elem.animate({scrollLeft: 0}, 200);
+        } else {
+            loadedImgs[0] += data.length
+            // elem.animate({scrollLeft: loadedImgs[0] * 60}, 200);
+        }
+
+    }
+
+    $("#kmod").on("input", function () {
+
+        kmods = $(this).val()
+        console.log(fdiff_bool);
+        if (fdiff_bool) {
+
+            let hk = Object.keys(currDiffHeat)
+
+            let svg = d3.select("#model")
+            for (let i = 0; i < hk.length; i++) {
+                svg.select("#" + hk[i]).attr("fill", diff_col(agDiff(currDiffHeat[hk[i]])));
+            }
+
+        } else {
+            fillHeads(currKmean)
+        }
+        updateStats(headStat[disp][curname], curname)
+
+    })
+
+
+    $("#tail").on("mouseover", "div", function () {
+
+
+        // let cont = $("#questDisp")
+        let elem = $(this);
+
+        if (!keymap[17]) {
+
+            // cont.html("")
+
+            let id = order[elem.attr("num")]["id"]
+
+            // let quests = Object.keys(metaDat[id]["questions"]);
+
+
+            fillQuest(id)
+
+
+            let im = new Image();
+            let val = id
+
+            im.onload = function () {
+
+                let can = document.getElementById("inVis")
+
+                let cont = can.getContext('2d');
+
+                imShown = im
+                let rate = fixRatio2([im.width, im.height], [350, 300])
+                linkInput(rate[0], rate[1])
+
+                can.width = rate[0]
+                can.height = rate[1]
+
+                cont.drawImage(im, 0, 0, rate[0], rate[1])
+            };
+
+            im.src = baseUrl + val + ".jpg"
+        }
+
+
+        // for (let i = 0; i < quests.length; i++) {
+        //     let temp = metaDat[id]["questions"][quests[i]]
+        //     cont.append("<p>" + temp.question + "</p>")
+        // }
+
+    })
+    ;
+
+
+    $("#tail").on("mouseleave", function () {
+
+        fillQuest(curImg)
+
+        let im = new Image();
+        let val = curImg
+
+        im.onload = function () {
+
+            let can = document.getElementById("inVis")
+
+            let cont = can.getContext('2d');
+
+            imShown = im
+            let rate = fixRatio2([im.width, im.height], [350, 300])
+            linkInput(rate[0], rate[1])
+
+            can.width = rate[0]
+            can.height = rate[1]
+
+            cont.drawImage(im, 0, 0, rate[0], rate[1])
+        };
+
+        im.src = baseUrl + val + ".jpg"
+    });
+
+
+    $("#head").on("mouseover", "div", function () {
+
+
+        let cont = $("#questDisp")
+        let elem = $(this);
+
+        if (!keymap[17]) {
+
+            cont.html("")
+
+            let id = order[elem.attr("num")]["id"]
+
+            let quests = Object.keys(metaDat[id]["questions"]);
+
+            for (let i = 0; i < quests.length; i++) {
+                let temp = metaDat[id]["questions"][quests[i]]
+
+                cont.append("<p>" + temp.question + "</p>")
+
+
+            }
+        }
+    })
+
+</script>
+
+</body>
+</html>
