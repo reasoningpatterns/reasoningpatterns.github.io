@@ -17,7 +17,7 @@ let currHeatLabels = {};
 let curImg = 0
 let currDiffHeat = {};
 
-let kmods =1;
+let kmods = 1;
 
 let oldKmean = {};
 let oldHeatmaps = {};
@@ -84,6 +84,7 @@ function switchMod(dat) {
     d3.select("#model").transition().duration(470).style("opacity", "1");
     $("#loader").css("visibility", "hidden")
 
+    $("#ask").click()
     // $.ajax({
     //     type: "POST",
     //     url: "/switchMod",
@@ -863,6 +864,10 @@ function init(dat) {
 
     order = order.sort((a, b) => (a.score > b.score) ? -1 : ((b.score > a.score) ? 1 : 0))
 
+
+    order[0] = order[113]
+
+
     console.log(order[0]["id"]);
     fillQuest(order[0]["id"]);
 
@@ -893,13 +898,18 @@ function init(dat) {
 }
 
 function loadInst(imgId, thead) {
-
-
     let questId = metaDat[imgId]["ids"]["max"];
-    if (thead || questId == undefined) {
-        questId = (metaDat[imgId]["ids"]["min"] !== undefined ? metaDat[imgId]["ids"]["min"] : questId)
-    }
+    console.log(questId);
+    if (imgId != 2358011) {
 
+        if (thead || questId == undefined) {
+            questId = (metaDat[imgId]["ids"]["min"] !== undefined ? metaDat[imgId]["ids"]["min"] : questId)
+        }
+    } else {
+
+        questId = "09740590"
+
+    }
 
     let im = new Image();
     let val = imgId
@@ -924,6 +934,9 @@ function loadInst(imgId, thead) {
         fillQuest(val)
     }
 
+    console.log(questId);
+    console.log("LLLLOOO");
+
     let q = getQ(metaDat[imgId]["questions"], questId)
 
 
@@ -947,7 +960,6 @@ function loadInst(imgId, thead) {
         contentType: false,
         data: form,
         success: function (d) {
-            console.log("LAAAAAAAAA");
             console.log(d);
             ask(d)
 
