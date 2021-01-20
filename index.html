@@ -104,6 +104,14 @@
             transform: scale(1.2, 1.2);
         }
 
+        #head img:hover,#tail img:hover {
+
+            cursor: pointer;
+            border: red solid 1px !important;
+
+
+        }
+
     </style>
 </head>
 <body>
@@ -144,9 +152,11 @@
             </p>
             <p> For more information on how to use this tool, please refer to our demo: <a href="demo.mp4"
                                                                                            target="_blank">reasoningpatterns.github.io/demo.mp4</a>
-                                                                                           <br>
-                                                                                           
-                                                                                           The code source of this tool is available at : <a href="https://github.com/reasoningpatterns/reasoningpatterns.github.io"> github.com/reasoningpatterns/reasoningpatterns.github.io</a>
+                <br>
+
+                The code source of this tool is available at : <a
+                        href="https://github.com/reasoningpatterns/reasoningpatterns.github.io">
+                    github.com/reasoningpatterns/reasoningpatterns.github.io</a>
             </p>
             <p style="width: 155px;margin-top: 20px;border-bottom: solid 1px #555;display: inline-block"></p>
         </div>
@@ -177,7 +187,7 @@
             <div id="asker" class="three columns">
                 <div style=";background-color: #fafafa;border: thin solid #f3f3f3;padding: .325em 0 .325em 0.2em;">
                     <input type="text" id="ask-quest" style="width: 314px"
-                           placeholder="Ask a question about the picture" list="productName">
+                           placeholder="Ask a question about the picture" onclick="$(this).val('')" list="productName">
                     <datalist id="productName">
                         <option value="bob">bob</option>
                     </datalist>
@@ -583,7 +593,7 @@
         });
 
 
-        $("#tail").on("mouseover", "img", function () {
+        $("#tail").on("click", "img", function () {
 
             let elem = $(this);
             if (!keymap[17]) {
@@ -598,7 +608,7 @@
         });
 
 
-        $("#head").on("mouseover", "img", function () {
+        $("#head").on("click", "img", function () {
 
             let elem = $(this);
             if (!keymap[17]) {
